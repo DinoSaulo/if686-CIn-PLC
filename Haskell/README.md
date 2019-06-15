@@ -2,4 +2,4 @@
 
 ### Resumo Haskell
 
-[Resumo sobre Threads com Haskell](/resumoHaskell.md)
+[Resumo sobre Threads com Haskell](resumoHaskell.md)
