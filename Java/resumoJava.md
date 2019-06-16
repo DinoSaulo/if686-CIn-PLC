@@ -2,7 +2,7 @@
 
 #### Clico de vida de uma thread
 
-![Clico de vida de uma thread](/Ciclo_de_vida_de_uma_Thread.png)
+![Clico de vida de uma thread](Ciclo_de_vida_de_uma_Thread.png)
 
 #### Implementação
 
@@ -89,4 +89,226 @@ public class MinhaThread extends Thread {
 
 #### Interface Runnable
 
+Para a implementação é essencial que a classe Runnable seja implementado, isso é feito através de `implements Runnable`
+Logo após, aparecerá um erro, pois o método `run()` é obrigatório para essa implementação, e até então tu não criou ele boy
 
+Mas a diferença dessa implementação é que você precisará criar uma classe contendo o que você quer que a thread faça, e passa-la para a thread através do código `Thread minhaThread = new Thread(threadComRunnable);` e logo após  executa-la através do `minhaThread.start();`
+
+##### Exemplo 3 - Threads contando e dormindo com Runnable
+```
+public class MinhaThreadRunnable implements Runnable {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		MinhaThreadRunnable thread = new MinhaThreadRunnable("Thread #1", 600);
+		MinhaThreadRunnable thread2 = new MinhaThreadRunnable("Thread #2", 900);
+		MinhaThreadRunnable thread3 = new MinhaThreadRunnable("Thread #3", 200);
+
+		Thread t1 = new Thread(thread);
+		Thread t2 = new Thread(thread2);
+		Thread t3 = new Thread(thread3);
+
+		t1.start();
+		t2.start();
+		t3.start();
+	}
+
+	private String nome;
+	private int tempo;
+
+	public MinhaThreadRunnable(String nome, int tempo) {
+		this.nome = nome;
+		this.tempo = tempo;
+	}
+
+	public void run() {
+		for(int i=0; i<6; i++) {
+			System.out.println(nome + " contador " + i);
+			try {
+				Thread.sleep(tempo);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println(nome + " terminou a execução!");
+	}
+
+}
+```
+
+#### Classe Thread VS Interface Runnable
+
+* Quando fazemos extends na *Thread*, o único método que precisa ser sobreposto é o *run*
+* Quando implementamos *Runnable*, precisamos obrigatóriamente implementar o método *run*
+* Com a classe *Runnable*, podemos extender qualquer outra classe
+* Se não for sobrepor qualquer outro método da classe *Thread*, pode ser melhor usar a classe *Runnable*
+* O professor Cornélio em quase todos seus exemplos implementa threads através da classe *Runnable*
+
+#### Mais implementações da Interface Runnable
+
+##### .isAlive()
+
+Retorna um boleno informando se a Thread está vida ou não; `true` se a thread está "viva" e ~~pau no seu cu~~ se ela estiver "morta"
+
+##### exemplo do .isAlive()
+```
+public class MinhaThreadRunnable implements Runnable {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		MinhaThreadRunnable thread = new MinhaThreadRunnable("Thread #1", 600);
+
+		Thread t1 = new Thread(thread);
+		t1.start();
+
+		System.out.println(t1.isAlive());
+	}
+
+	private String nome;
+	private int tempo;
+
+	public MinhaThreadRunnable(String nome, int tempo) {
+		this.nome = nome;
+		this.tempo = tempo;
+	}
+
+	public void run() {
+		for(int i=0; i<6; i++) {
+			System.out.println(nome + " contador " + i);
+			try {
+				Thread.sleep(tempo);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println(nome + " terminou a execução!");
+	}
+
+}
+```
+
+##### .join() || .join(x)
+
+Este comando só executará o resto do código quando a thread terminar sua execução. Também poderar conter um inteiro como argumento que é a quantidade de millisegundos que ela deverá esperar
+
+Ex:
+`minhaThread.join();`
+`System.out.println("A thread terminou sua execução!");`
+=> Irá imprimir o texto quando a thread terminar de executar
+Ex2:
+`minhaThread.join(200);`
+`System.out.println("A thread terminou sua execução!");`
+=> Irá imprimir o texto quando a thread terminar de executar OU após ela estar em execução a 200 millisegundos
+
+o método join requisita estar dentro de um try-catch ou que sua classe contenha o `throws InterruptedException` pois poderá dar uns erros malucos
+
+##### exemplo do .join()
+
+Imprimirá um texto somente quando as duas threads chegarem ao fim.
+
+```
+public class MinhaThreadRunnable implements Runnable {
+
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+		MinhaThreadRunnable thread = new MinhaThreadRunnable("Thread #1", 600);
+        MinhaThreadRunnable thread2 = new MinhaThreadRunnable("Thread #2", 900);
+
+		Thread t1 = new Thread(thread);
+        Thread t2 = new Thread(thread2);
+
+		t1.start();
+        t2.start();
+
+		t1.join();
+        t2.join();
+
+		System.out.println("O programa chegou ao fim");
+	}
+
+	private String nome;
+	private int tempo;
+
+	public MinhaThreadRunnable(String nome, int tempo) {
+		this.nome = nome;
+		this.tempo = tempo;
+	}
+
+	public void run() {
+		for(int i=0; i<6; i++) {
+			System.out.println(nome + " contador " + i);
+			try {
+				Thread.sleep(tempo);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println(nome + " terminou a execução!");
+	}
+
+}
+```
+
+##### .setPriority(x)
+
+Irá definir a prioridade da execução da thread
+
+O x poderá ser números de 1 à 10. Quanto maior o número maior a prioridade!
+
+O x também poderá ser um argumento já presente na classe que é `Thread.MAX_PRIORTY`,`Thread.MIN_PRIORTY` ou `Thread.NORM_PRIORTY`. Que já tem nomes auto explicativos
+
+OBS: Seu funcionamento não é 100%, irá variar a depender do SO e talz
+
+##### exemplo do .setPriority(x)
+
+Definindo prioridades para 3 threads
+
+```
+public class MinhaThreadRunnable implements Runnable {
+
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+		MinhaThreadRunnable thread = new MinhaThreadRunnable("Thread #1", 600);
+        MinhaThreadRunnable thread2 = new MinhaThreadRunnable("Thread #2", 900);
+        MinhaThreadRunnable thread3 = new MinhaThreadRunnable("Thread #3", 200);
+
+		Thread t1 = new Thread(thread);
+        Thread t2 = new Thread(thread2);
+        Thread t3 = new Thread(thread3);
+
+        t1.setPriority(10);
+        t2.setPriority(5);
+        t3.setPriority(1);
+
+		t1.start();
+        t2.start();
+        t3.start();
+	}
+
+	private String nome;
+	private int tempo;
+
+	public MinhaThreadRunnable(String nome, int tempo) {
+		this.nome = nome;
+		this.tempo = tempo;
+	}
+
+	public void run() {
+		for(int i=0; i<6; i++) {
+			System.out.println(nome + " contador " + i);
+			try {
+				Thread.sleep(tempo);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println(nome + " terminou a execução!");
+	}
+
+}
+
+```
