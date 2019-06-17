@@ -315,9 +315,20 @@ public class MinhaThreadRunnable implements Runnable {
 
 #### synchronized
 
-A sincronização serve para coordenar as atividades de 2 ou mais threads, pois quando duas threads tentam acessar um recurso, como uma variável, ao mesmo tempo, somente uma irá consguir ter acesso ao mesmo e bloqueará o acesso do mesmo para a outra.
+A sincronização serve para coordenar as atividades de 2 ou mais threads, pois quando duas threads tentam acessar um recurso, como uma variável, ao mesmo tempo, somente uma irá conseguir ter acesso ao mesmo e bloqueará o acesso do mesmo para a outra.
 
 E para garantir que ambas terão acesso igual utilizamos a palavra chave synchronized em métodos ou em um bloco de código
+
+Também é possíel sincronizar recursos, e isso será feito através da sincronização em blocos.
+
+ex:
+```
+synchronized( this ){
+	...
+}
+```
+
+este exemplo irá sincronizar o acesso a todas as vairáveis da classe.
 
 #### exemplo de programa sem synchronized
 
@@ -386,7 +397,7 @@ class Calculadora {
 }
 ```
 
-Executando o seeguinte código o resultado será maior que 15, pois as duas threads estão acessando simultâneamente a função e alterando o valor final. Para resolver isso basta sincronizar o método como mostra o exemplo abaixo.
+Executando o seguinte código o resultado será maior que 15, pois as duas threads estão acessando simultaneamente a função e alterando o valor final. Para resolver isso basta sincronizar o método como mostra o exemplo abaixo.
 
 #### exemplo de programa com synchronized
 
@@ -450,5 +461,251 @@ class Calculadora {
 
 	}
 
+}
+```
+
+#### .wait()
+
+Bloqueia a execução thread temporariamente, ou seja, coloca ela em modo de espera, e só sai quando for notificada
+
+Bastante útil em casos onde eu queira que threads acessem um objeto por vez
+
+*Esse método requisita estar dentro de um try-catch pois poderá dar uns erros malucos
+
+#### .notify() || notifyAll()
+
+Notifica uma ou todas as threads para que elas possam voltar a normal.
+
+Útil caso eu queira que agora a thread acesse o objeto, segundo o exemplo anterior
+
+OBS: Para usar tanto o `wait()`,`notify()` ou `notifyAll()` é esscencial estar em uma classe sincronizada, obtida através do `synchronized`
+
+#### exemplo de programa com wait() e notify()
+
+Duas threads, uma irá imprimir 'fi' e a outra 'daputa'
+
+##### Classe ThreadFiDaputa
+
+```
+public class ThreadFiDaputa implements Runnable {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		FiDaputa fiDaputa = new FiDaputa();
+		ThreadFiDaputa fi = new ThreadFiDaputa("fi", fiDaputa);
+		ThreadFiDaputa daputa = new ThreadFiDaputa("daputa", fiDaputa);
+		
+		try {
+			fi.t.join();
+			daputa.t.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		
+
+	}
+	
+	FiDaputa FDP;
+	Thread t;
+	
+	final int NUM = 5;
+	
+	public ThreadFiDaputa(String nome, FiDaputa fdp) {
+		this.FDP = fdp;
+		t = new Thread(this, nome);
+		t.start();
+	}
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		if(t.getName().equalsIgnoreCase("Fi")) {
+			for(int i = 0; i < NUM; i++) {
+				FDP.fi(true);
+			} 
+			FDP.fi(false);
+		} else {
+			for(int i = 0; i < NUM; i++) {
+				FDP.daputa(true);
+			}
+			FDP.daputa(false);
+		}
+	}
+
+}
+```
+
+##### Classe FiDaputa
+
+```
+
+public class FiDaputa  {
+	
+	boolean fi;
+	
+	synchronized void fi(boolean estaExecutando) {
+		if(!estaExecutando) {
+			fi = true;
+			notify();
+			return;
+		}
+		
+		System.out.print("Fi ");
+		
+		fi = true;
+		
+		notify();
+		
+		try {
+			while (fi) {
+				wait();
+			}
+		} catch( InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	synchronized void daputa(boolean estaExecutando) {
+		if(!estaExecutando) {
+			fi = false;
+			notify();
+			return;
+		}
+		
+		System.out.println("daputa");
+		
+		fi = false;
+		
+		notify();
+		
+		try {
+			while (!fi) {
+				wait();
+			}
+		} catch( InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+```
+
+#### .suspend()
+
+Irá suspender temporáriamente a execução de uma thread.
+
+#### .resume()
+
+Irá resumir a execução da thread, ou seja, ela voltará a funcionar.
+
+#### .stop()
+
+Termina a execução da thread.
+
+OBS: Todos estes três métodos foram excluidos do Java por dar muito pobrema, então, vamos implementalos na tora
+
+#### Exemplo de programa com .suspend(), .resume() e .stop()
+
+##### Classe MetodosSuspensos
+```
+public class MetodosSuspensos {
+
+	public static void main(String[] args) {
+
+		MinhaThread t1 = new MinhaThread("#1");
+		MinhaThread t2 = new MinhaThread("#2");
+		
+		System.out.println("Pausando a Thread #1");
+		
+		t1.suspend();
+		
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Pausando a Thread #2");
+		
+		t2.suspend();
+		
+		System.out.println("Resumindo a Thread #1");
+		
+		t1.resume();
+		
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Resumindo a Thread #2");
+		
+		t2.resume();
+		
+		System.out.println("Terminando a Thread #2");
+		
+		t2.stop();
+	}
+
+}
+
+```
+
+##### Classe MinhaThread
+```
+public class MinhaThread implements Runnable {
+
+	private String nome;
+	private boolean estaSuspensa;
+	private boolean foiTerminada;
+
+	public MinhaThread(String nome){
+		this.nome = nome;
+		this.estaSuspensa = false;
+		new Thread(this, nome).start();
+		//Thread t = new Thread(this, nome);
+		//t.start();
+	}
+
+	@Override
+	public void run() {
+
+		System.out.println("Executando " + this.nome);
+
+		try {
+			for (int i=0; i<10; i++){
+				System.out.println("Thread " + nome + ", " + i);
+				Thread.sleep(300);
+				synchronized (this) {
+					while (estaSuspensa){
+						wait();
+					}
+					if (this.foiTerminada){
+						break;
+					}
+				}
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("Thread " + this.nome + " terminada.");
+	}
+	
+	void suspend(){
+		this.estaSuspensa = true;
+	}
+
+	synchronized void resume(){
+		this.estaSuspensa = false;
+		notify();
+	}
+	
+	synchronized void stop(){
+		this.foiTerminada = true;
+		notify();
+	}
 }
 ```
