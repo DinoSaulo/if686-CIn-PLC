@@ -11,7 +11,7 @@ Há duas maneiras de implementar Threads no Java
 * Estendendo a classe Thread
 * Implementando a interface Runnable
 
-#### Classe Thread
+### Classe Thread
 
 Para a implementação é essencial que a classe estenda de Thread, isso é feito através de `extends Thread`
 
@@ -87,7 +87,7 @@ public class MinhaThread extends Thread {
 }
 ```
 
-#### Interface Runnable
+### Interface Runnable
 
 Para a implementação é essencial que a classe Runnable seja implementado, isso é feito através de `implements Runnable`
 Logo após, aparecerá um erro, pois o método `run()` é obrigatório para essa implementação, e até então tu não criou ele boy
@@ -145,13 +145,13 @@ public class MinhaThreadRunnable implements Runnable {
 * Se não for sobrepor qualquer outro método da classe *Thread*, pode ser melhor usar a classe *Runnable*
 * O professor Cornélio em quase todos seus exemplos implementa threads através da classe *Runnable*
 
-#### Mais implementações da Interface Runnable
+### Mais implementações da Interface Runnable
 
-##### .isAlive()
+#### .isAlive()
 
-Retorna um boleno informando se a Thread está vida ou não; `true` se a thread está "viva" e ~~pau no seu cu~~ se ela estiver "morta"
+Retorna um boleno informando se a Thread está vida ou não; `true` se a thread está "viva" e ~~pau no seu cu~~`false` se ela estiver "morta"
 
-##### exemplo do .isAlive()
+#### exemplo do .isAlive()
 ```
 public class MinhaThreadRunnable implements Runnable {
 
@@ -189,7 +189,7 @@ public class MinhaThreadRunnable implements Runnable {
 }
 ```
 
-##### .join() || .join(x)
+#### .join() || .join(x)
 
 Este comando só executará o resto do código quando a thread terminar sua execução. Também poderar conter um inteiro como argumento que é a quantidade de millisegundos que ela deverá esperar
 
@@ -204,7 +204,7 @@ Ex2:
 
 o método join requisita estar dentro de um try-catch ou que sua classe contenha o `throws InterruptedException` pois poderá dar uns erros malucos
 
-##### exemplo do .join()
+#### exemplo do .join()
 
 Imprimirá um texto somente quando as duas threads chegarem ao fim.
 
@@ -252,7 +252,7 @@ public class MinhaThreadRunnable implements Runnable {
 }
 ```
 
-##### .setPriority(x)
+#### .setPriority(x)
 
 Irá definir a prioridade da execução da thread
 
@@ -262,7 +262,7 @@ O x também poderá ser um argumento já presente na classe que é `Thread.MAX_P
 
 OBS: Seu funcionamento não é 100%, irá variar a depender do SO e talz
 
-##### exemplo do .setPriority(x)
+#### exemplo do .setPriority(x)
 
 Definindo prioridades para 3 threads
 
@@ -311,4 +311,144 @@ public class MinhaThreadRunnable implements Runnable {
 
 }
 
+```
+
+#### synchronized
+
+A sincronização serve para coordenar as atividades de 2 ou mais threads, pois quando duas threads tentam acessar um recurso, como uma variável, ao mesmo tempo, somente uma irá consguir ter acesso ao mesmo e bloqueará o acesso do mesmo para a outra.
+
+E para garantir que ambas terão acesso igual utilizamos a palavra chave synchronized em métodos ou em um bloco de código
+
+#### exemplo de programa sem synchronized
+
+Uma calculadora que soma um vetor com números de 1 a 5
+
+O resultado esperado é 15
+
+```
+public class MinhaThreadSoma implements Runnable{
+
+	public static void main(String[] args) {
+		int[] array = {1,2,3,4,5};
+
+		MinhaThreadSoma thread1 = new MinhaThreadSoma("#1", array);
+		MinhaThreadSoma thread2 = new MinhaThreadSoma("#2", array);
+	}
+
+	private String nome;
+	private int[] nums;
+	private static Calculadora calc = new Calculadora();
+
+	public MinhaThreadSoma(String nome, int[] nums) {
+		this.nome = nome;
+		this.nums = nums;
+		new Thread(this, nome).start();
+		//t.start();
+	}
+
+	public void run() {
+
+		System.out.println(this.nome + " iniciada");
+
+		int soma = calc.somaArray(this.nums);
+
+		System.out.println("Resultado da soma para thread " + this.nome + " é: " + soma);
+
+		System.out.println(this.nome + " terminada");
+	}
+
+}
+
+
+class Calculadora {
+
+	private int soma;
+
+	public int somaArray(int[] array) {
+		soma = 0;
+
+		for(int i = 0; i<array.length; i++) {
+			soma += array[i];
+
+			System.out.println("Executando a soma " + Thread.currentThread().getName() + " somando o valor " + array[i] + "com total de " + soma);
+
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return soma;
+
+	}
+
+}
+```
+
+Executando o seeguinte código o resultado será maior que 15, pois as duas threads estão acessando simultâneamente a função e alterando o valor final. Para resolver isso basta sincronizar o método como mostra o exemplo abaixo.
+
+#### exemplo de programa com synchronized
+
+O resultado agora será 15
+
+```
+public class MinhaThreadSoma implements Runnable{
+
+	public static void main(String[] args) {
+		int[] array = {1,2,3,4,5};
+
+		MinhaThreadSoma thread1 = new MinhaThreadSoma("#1", array);
+		MinhaThreadSoma thread2 = new MinhaThreadSoma("#2", array);
+	}
+
+	private String nome;
+	private int[] nums;
+	private static Calculadora calc = new Calculadora();
+
+	public MinhaThreadSoma(String nome, int[] nums) {
+		this.nome = nome;
+		this.nums = nums;
+		new Thread(this, nome).start();
+		//t.start();
+	}
+
+	public void run() {
+
+		System.out.println(this.nome + " iniciada");
+
+		int soma = calc.somaArray(this.nums);
+
+		System.out.println("Resultado da soma para thread " + this.nome + " é: " + soma);
+
+		System.out.println(this.nome + " terminada");
+	}
+
+}
+
+
+class Calculadora {
+
+	private int soma;
+
+	public synchronized int somaArray(int[] array) {
+		soma = 0;
+
+		for(int i = 0; i<array.length; i++) {
+			soma += array[i];
+
+			System.out.println("Executando a soma " + Thread.currentThread().getName() + " somando o valor " + array[i] + "com total de " + soma);
+
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return soma;
+
+	}
+
+}
 ```
