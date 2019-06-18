@@ -1,3 +1,4 @@
+-- Aluno Saulo Alexandre de Barros (SAB2)
 function newpoly(lista, x)
 
     final = 0
@@ -7,7 +8,7 @@ function newpoly(lista, x)
         arraynumeros[i] = v
     end
     
-    final = arraynumeros[1] * x * x +  arraynumeros[2] * x + arraynumeros[3] 
+    final = ( arraynumeros[1] * x * x ) +  ( arraynumeros[2] * x ) + arraynumeros[3] 
 
     return final
 

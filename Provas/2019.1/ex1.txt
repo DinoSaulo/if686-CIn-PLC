@@ -1,20 +1,3 @@
-Sim, o seguinte programa poderá entrar em deadlock na sua execução, 
-caso as referencias das variaveis a e b sejam trocadas, mas nod demais casos toda vez que uma thread requisitar a ela já tera controle de b não acontacendo o deadlock, mas isso so se dara caso a e b estejam se referindo ao mesmo objeto.
-
-
-mesmo com 
-os recursos estando sincronizados através do synchronazed. Isso ocorrerá pois os
- mesmos estão sincronizados de forma de blocos aninhados, ou seja, um bloco como 
- o synchronazed dentro de outro.
-Essse modo irá reduz o custo da sincronização dos métodos que estão asociados
-
-Reduzem o custo de sincronização associado
-ao método
-–
-●
-Afetam apenas parte do método
-Monitor fica explícito
-–
-Aninhamento de monitores também
-
-NESCE CASO NÃO HAVERÁ DEAD JA QUE AMBAS AS THREADS SÃO IGUAIS
+Aluno: Saulo Alexandre de Barros (SAB2)
+Não irá haver um deadlock já que os objetos a e b de ambas as threas reiniciam o objeto, então, caso uma das threads obter o controle do monitor do objeto b a outra thread não podera ter e quem irá ter o controle do monitor de b, também irá ter o controle do monitor de a.
+Um outro fator é que não se poderá conter uma chamada para uma outra thread já que uma thread não tem referência para a outra thread, resumindo, nesse programa necessariamente uma thread irá obter o controle de b, e então sera a única que tentara ter o controle de a, então executara o bloco onde não podera invocar a outra thread para gerar o deadlock e acabara a sua execucao e então a outra thread irá etrar em execução.
