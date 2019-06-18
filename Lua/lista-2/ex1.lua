@@ -42,7 +42,7 @@ function getKeys(tabelinha)
 
     finalTable = removeDuplicados(tableReturn)
 
-    return unpack(finalTable)
+    return table.unpack(finalTable)
 end
 
 print(getKeys(tabela))
