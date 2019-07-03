@@ -59,5 +59,3 @@ valida (x:xs) = (origem x == destino (head xs)) && (valida xs)
         destino(Trem o1 d1 c1) = d1
         destino(Onibus o1 d1) = d1
         destino(Aviao o1 d1 c1) = d1
-
-3

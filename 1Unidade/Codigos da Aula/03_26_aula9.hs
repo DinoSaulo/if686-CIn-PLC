@@ -1,3 +1,4 @@
+
 type Nome = String
 tamNome :: String -> Int
 tamNome n = length n

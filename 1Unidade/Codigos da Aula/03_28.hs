@@ -89,4 +89,3 @@ instance (Eq t) => Eq (Lista t) where
 data Temperatura = Quente | Frio deriving (Eq, Ord, Show)
 data DiasSemana = Dom | Seg | Ter | Qua | Qui | Sex | Sab
                    deriving (Eq, Ord, Show, Enum)
-
