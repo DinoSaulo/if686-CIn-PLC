@@ -8,7 +8,7 @@ Utilizado para unir duas ou mais listas.
 
 #### Exemplos
 
-```
+```haskell
 [4,0,0,2] ++ [8,9,2,2] --> [4,0,0,2,8,9,2,2]
 ```
 
@@ -18,7 +18,7 @@ Varifica se uma lista é vazia.
 
 #### Exemplos
 
-```
+```haskell
 null [4,0,0,2] --> False
 -- ou
 null [] --> True
@@ -30,7 +30,7 @@ Devolve a cauda de uma lista.
 
 #### Exemplos
 
-```
+```haskell
 tail [4,0,0,2] --> [0,0,2]
 ```
 
@@ -40,7 +40,7 @@ Devolve uma lista sem o ultimo elemento.
 
 #### Exemplos
 
-```
+```haskell
 init [4,0,0,2] --> [4,0,0]
 ```
 
@@ -50,7 +50,7 @@ Devolve o primeiro item da lista.
 
 #### Exemplos
 
-```
+```haskell
 head [4,0,0,2] --> 4
 ```
 
@@ -60,7 +60,7 @@ Devolve o o tamanho da lista
 
 #### Exemplos
 
-```
+```haskell
 length [4,0,0,2] --> 4
 ```
 
@@ -70,7 +70,7 @@ Devolve uma lista sem os n primeiros elementos.
 
 #### Exemplos
 
-```
+```haskell
 drop 2 [4,0,0,2] --> [0,2]
 ```
 
@@ -80,7 +80,7 @@ Devolve os N primeiros elementos de uma lista.
 
 #### Exemplos
 
-```
+```haskell
 drop 2 [4,0,0,2] --> [4,0]
 ```
 
@@ -90,7 +90,7 @@ Devolve o inverso de uma lista.
 
 #### Exemplos
 
-```
+```haskell
 reverse [4,0,0,2] --> [2,0,0,4]
 ```
 
@@ -100,7 +100,7 @@ Devolve uma lista com o elemento passado repetido N vezes.
 
 #### Exemplos
 
-```
+```haskell
 replicate 3 "Eu odeio PLC" --> ["Eu odeio PLC","Eu odeio PLC","Eu odeio PLC"]
 ```
 
@@ -110,7 +110,7 @@ Devolve uma tupla com o elemento passado separado após o subelemento N.
 
 #### Exemplos
 
-```
+```haskell
 splitAt 3 "Eu odeio PLC" --> ("Eu ","odeio PLC")
 ```
 
@@ -120,7 +120,7 @@ Se você precisar de uma explicação para essas funções, você não merece es
 
 #### Exemplos
 
-```
+```haskell
 not True --> False
 and [True,True,False, True] --> False
 or [True,True,False, True] -> True
@@ -132,7 +132,7 @@ Receberá uma função e uma lista e irá aplicar uma função em todos os valor
 
 #### Exemplos
 
-```
+```haskell
 vendas :: Int -> Int
 vendas 0 = 4
 vendas 1 = 0
@@ -150,7 +150,7 @@ Devolve uma lista caso o presente elemento aplicado na função recebida retorne
 
 #### Exemplos
 
-```
+```haskell
 frase :: String -> Bool
 frase "Eu" = True
 frase "amo" = False
@@ -166,7 +166,7 @@ Retorna a junção das duas listas em uma ou mais tuplas, ou seja, retorna as li
 
 #### Exemplos
 
-```
+```haskell
 zip [1,2] ['a','b'] --> [(1,'a'),(2,'b')]
 zip [1,2,3,4] ['a','b'] --> [(1,'a'),(2,'b')]
 ```
@@ -177,7 +177,7 @@ Retorna a descompactação da lista.
 
 #### Exemplos
 
-```
+```haskell
 unzip [(1,'a'),(2,'b')] --> ([1,2],"ab")
 ```
 
@@ -189,7 +189,7 @@ Funcionamento igual ao if e else de todas as outras linguagens.
 
 #### Exemplos
 
-```
+```haskell
 if_par :: Int -> Bool
 if_par n = if (mod n 2 == 0) then
                 True
@@ -203,7 +203,7 @@ Funciona basicamente como um switch.
 
 #### Exemplos
 
-```
+```haskell
 case_par :: Int -> Bool
 case_par n = case (mod n 2 == 0) of
                 True -> True
@@ -216,7 +216,7 @@ Executará uma função que utilizará argumentos que serão definidos no where.
 
 #### Exemplos
 
-```
+```haskell
 somaQuadrado :: Int -> Int -> Int
 somaQuadrado x y = quadrx + quadry
                     where
@@ -234,7 +234,7 @@ Um sinal do indício de uma função lambda é o `\`
 
 #### Exemplos
 
-```
+```haskell
 (\x -> (x*x)) 10 --> 100
 
 f_lambda()
@@ -246,7 +246,7 @@ Cria uma lista e vai adicionando os elementos nela caso a mesma retorne True par
 
 #### Exemplos
 
-```
+```haskell
 vendas :: Int -> Int
 vendas 0 = 4
 vendas 1 = 0

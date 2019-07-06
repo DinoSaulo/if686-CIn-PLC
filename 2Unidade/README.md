@@ -3,8 +3,10 @@ Lua, Java (Threads) &amp;&amp; Haskell (Threads)
 
 
 ## Como rodar o Lua no PC do CIn
-### Créditos Rafael
-```
+
+### Créditos @rafaelmotaalves
+Executar o código no powershell/terminal
+```bash
 # /bin/bash
 
 curl -R -O http://www.lua.org/ftp/lua-5.3.4.tar.gz

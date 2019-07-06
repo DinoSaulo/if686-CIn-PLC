@@ -28,7 +28,7 @@ Há dois pontos essenciais que não podem ser esquecidos
 
 ##### Exemplo 1 - Basicão
 
-```
+```java
 public class MinhaThread extends Thread {
 
 	public static void main(String[] args) {
@@ -53,7 +53,7 @@ public class MinhaThread extends Thread {
 ```
 
 ##### Exemplo 2 - Threads contando e dormindo
-```
+```java
 public class MinhaThread extends Thread {
 
 	public static void main(String[] args) {
@@ -95,7 +95,7 @@ Logo após, aparecerá um erro, pois o método `run()` é obrigatório para essa
 Mas a diferença dessa implementação é que você precisará criar uma classe contendo o que você quer que a thread faça, e passa-la para a thread através do código `Thread minhaThread = new Thread(threadComRunnable);` e logo após  executa-la através do `minhaThread.start();`
 
 ##### Exemplo 3 - Threads contando e dormindo com Runnable
-```
+```java
 public class MinhaThreadRunnable implements Runnable {
 
 	public static void main(String[] args) {
@@ -152,7 +152,7 @@ public class MinhaThreadRunnable implements Runnable {
 Retorna um boleno informando se a Thread está vida ou não; `true` se a thread está "viva" e ~~pau no seu cu~~`false` se ela estiver "morta"
 
 #### exemplo do .isAlive()
-```
+```java
 public class MinhaThreadRunnable implements Runnable {
 
 	public static void main(String[] args) {
@@ -208,7 +208,7 @@ o método join requisita estar dentro de um try-catch ou que sua classe contenha
 
 Imprimirá um texto somente quando as duas threads chegarem ao fim.
 
-```
+```java
 public class MinhaThreadRunnable implements Runnable {
 
 	public static void main(String[] args) throws InterruptedException {
@@ -266,7 +266,7 @@ OBS: Seu funcionamento não é 100%, irá variar a depender do SO e talz
 
 Definindo prioridades para 3 threads
 
-```
+```java
 public class MinhaThreadRunnable implements Runnable {
 
 	public static void main(String[] args) throws InterruptedException {
@@ -336,7 +336,7 @@ Uma calculadora que soma um vetor com números de 1 a 5
 
 O resultado esperado é 15
 
-```
+```java
 public class MinhaThreadSoma implements Runnable{
 
 	public static void main(String[] args) {
@@ -403,7 +403,7 @@ Executando o seguinte código o resultado será maior que 15, pois as duas threa
 
 O resultado agora será 15
 
-```
+```java
 public class MinhaThreadSoma implements Runnable{
 
 	public static void main(String[] args) {
@@ -486,7 +486,7 @@ Duas threads, uma irá imprimir 'fi' e a outra 'daputa'
 
 ##### Classe ThreadFiDaputa
 
-```
+```java
 public class ThreadFiDaputa implements Runnable {
 
 	public static void main(String[] args) {
@@ -538,7 +538,7 @@ public class ThreadFiDaputa implements Runnable {
 
 ##### Classe FiDaputa
 
-```
+```java
 
 public class FiDaputa  {
 	
@@ -608,7 +608,7 @@ OBS: Todos estes três métodos foram excluidos do Java por dar muito pobrema, e
 #### Exemplo de programa com .suspend(), .resume() e .stop()
 
 ##### Classe MetodosSuspensos
-```
+```java
 public class MetodosSuspensos {
 
 	public static void main(String[] args) {
@@ -654,7 +654,7 @@ public class MetodosSuspensos {
 ```
 
 ##### Classe MinhaThread
-```
+```java
 public class MinhaThread implements Runnable {
 
 	private String nome;
@@ -714,7 +714,7 @@ public class MinhaThread implements Runnable {
 
 #### Exemplo de programa com deadlock
 
-```
+```java
 public class Deadlock {
 
 	public static void main(String[] args) {
