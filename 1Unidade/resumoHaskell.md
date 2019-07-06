@@ -4,7 +4,7 @@
 
 ### - Concatenador de listas ( ++ )
 
-Utilizado para unir duas ou mais listas
+Utilizado para unir duas ou mais listas.
 
 #### Exemplos
 
@@ -14,7 +14,7 @@ Utilizado para unir duas ou mais listas
 
 ### - null (Foldable t => t a -> Bool)
 
-Varifica se uma lista é vazia
+Varifica se uma lista é vazia.
 
 #### Exemplos
 
@@ -26,7 +26,7 @@ null [] --> True
 
 ### - tail ([a] -> [a])
 
-Devolve a cauda de uma lista
+Devolve a cauda de uma lista.
 
 #### Exemplos
 
@@ -36,7 +36,7 @@ tail [4,0,0,2] --> [0,0,2]
 
 ### - init ([a] -> [a])
 
-Devolve uma lista sem o ultimo elemento
+Devolve uma lista sem o ultimo elemento.
 
 #### Exemplos
 
@@ -46,7 +46,7 @@ init [4,0,0,2] --> [4,0,0]
 
 ### - head ([a] -> a)
 
-Devolve o primeiro item da lista
+Devolve o primeiro item da lista.
 
 #### Exemplos
 
@@ -66,7 +66,7 @@ length [4,0,0,2] --> 4
 
 ### - drop (Int -> [a] -> [a])
 
-Devolve uma lista sem os n primeiros elementos
+Devolve uma lista sem os n primeiros elementos.
 
 #### Exemplos
 
@@ -76,7 +76,7 @@ drop 2 [4,0,0,2] --> [0,2]
 
 ### - take (Int -> [a] -> [a])
 
-Devolve os N primeiros elementos de uma lista
+Devolve os N primeiros elementos de uma lista.
 
 #### Exemplos
 
@@ -86,7 +86,7 @@ drop 2 [4,0,0,2] --> [4,0]
 
 ### - reverse ([a] -> [a])
 
-Devolve o inverso de uma lista
+Devolve o inverso de uma lista.
 
 #### Exemplos
 
@@ -96,7 +96,7 @@ reverse [4,0,0,2] --> [2,0,0,4]
 
 ### - replicate (Int -> a -> [a])
 
-Devolve uma lista com o elemento passado repetido N vezes
+Devolve uma lista com o elemento passado repetido N vezes.
 
 #### Exemplos
 
@@ -106,7 +106,7 @@ replicate 3 "Eu odeio PLC" --> ["Eu odeio PLC","Eu odeio PLC","Eu odeio PLC"]
 
 ### - splitAt (Int -> [a] -> ([a], [a]))
 
-Devolve uma tupla com o elemento passado separado após o subelemento N
+Devolve uma tupla com o elemento passado separado após o subelemento N.
 
 #### Exemplos
 
@@ -116,7 +116,7 @@ splitAt 3 "Eu odeio PLC" --> ("Eu ","odeio PLC")
 
 ### - not, and, or (Not => Bool -> Bool | and && or => Foldable t => t Bool -> Bool)
 
-Se você precisar de uma explicação para essas funções, você não merece essar pagando PLC
+Se você precisar de uma explicação para essas funções, você não merece essar pagando PLC.
 
 #### Exemplos
 
@@ -129,6 +129,7 @@ or [True,True,False, True] -> True
 ### - map ((a -> b) -> [a] -> [b])
 
 Receberá uma função e uma lista e irá aplicar uma função em todos os valores da lista e devolver uma lista com os resultados obtidos.
+
 #### Exemplos
 
 ```
@@ -141,6 +142,22 @@ vendas 3 = 2
 map vendas [0..2] --> [4,0,0]
 -- ou
 map (*2) [0..3] --> [0,2,4,6]
+```
+
+### - filter ((a -> Bool) -> [a] -> [a])
+
+Devolve uma lista caso o presente elemento aplicado na função recebida retorne True
+
+#### Exemplos
+
+```
+frase :: String -> Bool
+frase "Eu" = True
+frase "amo" = False
+frase "odeio" = True
+frase "PLC" = True
+
+filter (frase) ["Eu", "amo", "odeio", "PLC"] --> ["Eu", "odeio", "PLC"]
 ```
 
 ### - zip ([a] -> [b] -> [(a,b)])
@@ -164,9 +181,11 @@ Retorna a descompactação da lista.
 unzip [(1,'a'),(2,'b')] --> ([1,2],"ab")
 ```
 
+## Operadores básicos de Haskell
+
 ### - if-then-else
 
-Funcionamento igual ao if e else de todas as outras linguagens
+Funcionamento igual ao if e else de todas as outras linguagens.
 
 #### Exemplos
 
@@ -180,7 +199,7 @@ if_par n = if (mod n 2 == 0) then
 
 ### - case
 
-Funciona basicamente como um switch
+Funciona basicamente como um switch.
 
 #### Exemplos
 
@@ -193,7 +212,7 @@ case_par n = case (mod n 2 == 0) of
 
 ### - where
 
-Executará uma função que utilizará argumentos que serão definidos no where
+Executará uma função que utilizará argumentos que serão definidos no where.
 
 #### Exemplos
 
@@ -204,6 +223,8 @@ somaQuadrado x y = quadrx + quadry
                         quadrx =  x * x
                         quadry =  y * y
 ```
+
+## Processos que o professor da cadeira cobra com Haskell
 
 ### - Funções lambda
 
@@ -217,4 +238,31 @@ Um sinal do indício de uma função lambda é o `\`
 (\x -> (x*x)) 10 --> 100
 
 f_lambda()
+```
+
+### - Compactação de listas
+
+Cria uma lista e vai adicionando os elementos nela caso a mesma retorne True para a função passada, e no final retorna a lista.
+
+#### Exemplos
+
+```
+vendas :: Int -> Int
+vendas 0 = 4
+vendas 1 = 0
+vendas 2 = 0
+vendas 3 = 2
+vendas 4 = 8
+
+-- Esta função adiciona um True em uma lista caso a função retorne 0
+zeroVendasA :: Int -> [Bool]
+zeroVendasA num = [ True |  x <- [0..num], (vendas x) == 0]
+```
+
+```
+ehPar :: Int -> Bool
+par x = mod x 2 == 0
+
+-- retorna uma lista com os elementos pares maiores do que 5 até 10
+lista = [ x | x <- [0..10], ehPar x, x > 5] -- [6,8,10]
 ```

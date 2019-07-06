@@ -30,9 +30,3 @@ balanceado (Barra l r) =
     diff <= 1 && balanceado l && balanceado r
 
 -- 3
-
-somaQuadrado :: Int -> Int -> Int
-somaQuadrado x y = quadrx + quadry
-                    where
-                        quadrx =  x * x
-                        quadry =  y * y
