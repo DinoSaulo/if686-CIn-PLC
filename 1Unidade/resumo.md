@@ -2,7 +2,7 @@
 
 ## Funções básicas da prelude com Haskell
 
-### Concatenador de listas ( ++ )
+### - Concatenador de listas ( ++ )
 
 Utilizado para unir duas ou mais listas
 
@@ -12,7 +12,7 @@ Utilizado para unir duas ou mais listas
 [4,0,0,2] ++ [8,9,2,2] --> [4,0,0,2,8,9,2,2]
 ```
 
-### null (Foldable t => t a -> Bool)
+### - null (Foldable t => t a -> Bool)
 
 Varifica se uma lista é vazia
 
@@ -24,7 +24,109 @@ null [4,0,0,2] --> False
 null [] --> True
 ```
 
-### map :: (a -> b) -> [a] -> [b]
+### - tail ([a] -> [a])
+
+Devolve a cauda de uma lista
+
+#### Exemplos
+
+```
+tail [4,0,0,2] --> [0,0,2]
+```
+
+### - init ([a] -> [a])
+
+Devolve uma lista sem o ultimo elemento
+
+#### Exemplos
+
+```
+init [4,0,0,2] --> [4,0,0]
+```
+
+### - head ([a] -> a)
+
+Devolve o primeiro item da lista
+
+#### Exemplos
+
+```
+head [4,0,0,2] --> 4
+```
+
+### - length ([a] -> a)
+
+Devolve o o tamanho da lista
+
+#### Exemplos
+
+```
+length [4,0,0,2] --> 4
+```
+
+### - drop (Int -> [a] -> [a])
+
+Devolve uma lista sem os n primeiros elementos
+
+#### Exemplos
+
+```
+drop 2 [4,0,0,2] --> [0,2]
+```
+
+### - take (Int -> [a] -> [a])
+
+Devolve os N primeiros elementos de uma lista
+
+#### Exemplos
+
+```
+drop 2 [4,0,0,2] --> [4,0]
+```
+
+### - reverse ([a] -> [a])
+
+Devolve o inverso de uma lista
+
+#### Exemplos
+
+```
+reverse [4,0,0,2] --> [2,0,0,4]
+```
+
+### - replicate (Int -> a -> [a])
+
+Devolve uma lista com o elemento passado repetido N vezes
+
+#### Exemplos
+
+```
+replicate 3 "Eu odeio PLC" --> ["Eu odeio PLC","Eu odeio PLC","Eu odeio PLC"]
+```
+
+### - splitAt (Int -> [a] -> ([a], [a]))
+
+Devolve uma tupla com o elemento passado separado após o subelemento N
+
+#### Exemplos
+
+```
+splitAt 3 "Eu odeio PLC" --> ("Eu ","odeio PLC")
+```
+
+### - not, and, or (Not => Bool -> Bool | and && or => Foldable t => t Bool -> Bool)
+
+Se você precisar de uma explicação para essas funções, você não merece essar pagando PLC
+
+#### Exemplos
+
+```
+not True --> False
+and [True,True,False, True] --> False
+or [True,True,False, True] -> True
+```
+
+### - map ((a -> b) -> [a] -> [b])
 
 Receberá uma função e uma lista e irá aplicar uma função em todos os valores da lista e devolver uma lista com os resultados obtidos.
 #### Exemplos
@@ -41,10 +143,9 @@ map vendas [0..2] --> [4,0,0]
 map (*2) [0..3] --> [0,2,4,6]
 ```
 
+### - zip ([a] -> [b] -> [(a,b)])
 
-### zip :: [a] -> [b] -> [(a,b)]
-
-Retornaá a junção das duas listas em uma ou mais tuplas
+Retorna a junção das duas listas em uma ou mais tuplas, ou seja, retorna as listas compactadas.
 
 #### Exemplos
 
@@ -53,7 +154,17 @@ zip [1,2] ['a','b'] --> [(1,'a'),(2,'b')]
 zip [1,2,3,4] ['a','b'] --> [(1,'a'),(2,'b')]
 ```
 
-### if-then-else
+### - unzip ([(a, b)] -> ([a], [b]))
+
+Retorna a descompactação da lista.
+
+#### Exemplos
+
+```
+unzip [(1,'a'),(2,'b')] --> ([1,2],"ab")
+```
+
+### - if-then-else
 
 Funcionamento igual ao if e else de todas as outras linguagens
 
@@ -67,9 +178,9 @@ if_par n = if (mod n 2 == 0) then
                 False
 ```
 
-### case
+### - case
 
-
+Funciona basicamente como um switch
 
 #### Exemplos
 
@@ -80,9 +191,9 @@ case_par n = case (mod n 2 == 0) of
                 False -> False
 ```
 
-### where
+### - where
 
-
+Executará uma função que utilizará argumentos que serão definidos no where
 
 #### Exemplos
 
@@ -94,7 +205,7 @@ somaQuadrado x y = quadrx + quadry
                         quadry =  y * y
 ```
 
-### Funções lambda
+### - Funções lambda
 
 Funções anônimas utilizadas quando queremos utilizar funções uma unica vez.
 Geralmente elas são passadas para funções de ordem superior
