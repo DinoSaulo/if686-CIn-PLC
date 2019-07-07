@@ -48,6 +48,7 @@ bilhete3 = Aviao "SaoPaulo" "Curitiba" ClasseEconomica
 
 bilhetes = [bilhete1, bilhete2, bilhete3]
 
+
 valida :: [Bilhete] -> Bool
 valida [] = False
 valida [x] = True
@@ -59,3 +60,34 @@ valida (x:xs) = (origem x == destino (head xs)) && (valida xs)
         destino(Trem o1 d1 c1) = d1
         destino(Onibus o1 d1) = d1
         destino(Aviao o1 d1 c1) = d1
+
+-- 4
+
+data Nat = Zero | Succ Nat deriving (Eq, Show)
+
+-- a
+
+int2Nat :: Int -> Nat
+int2Nat 0 = Zero
+int2Nat num = Succ (int2Nat (num-1))
+
+-- b
+
+nat2Int :: Nat -> Int
+nat2Int Zero = 0
+nat2Int (Succ n) = 1 + (nat2Int n)
+
+-- c
+
+soma :: Nat -> Nat -> Int
+soma Zero _ = _
+soma _ Zero = _
+soma nat1 nat2 = int2Nat (sum (nat2Int nat1) (nat2Int nat2))
+
+-- d
+
+mult :: Nat -> Nat -> Int
+mult Zero _ = _
+mult _ Zero = _
+mult nat1 nat2 = int2Nat ((nat2Int nat1) * (nat2Int nat2))
+

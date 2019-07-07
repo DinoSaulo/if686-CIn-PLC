@@ -29,4 +29,11 @@ balanceado (Barra l r) =
     let diff = abs (size l - size r) in
     diff <= 1 && balanceado l && balanceado r
 
+-- Outra resolução
+balanceado2 :: Mobile  -> Bool
+balanceado2 (Pendente _) = True
+balanceado2 (Barra m1 m2) = peso m1 == peso m2 && balanceado m1 && balanceado m2
+
 -- 3
+
+-- Em outro arquivo
