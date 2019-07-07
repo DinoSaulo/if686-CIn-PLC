@@ -26,4 +26,4 @@ appListaPoliNormal _ [] = []
 appListaPoliNormal (x:xs) (a:b) = (x a):(appListaPoliNormal xs b)
 
 -- 4
-(map (\x -> length x)).(foldr (/) 1)
+
