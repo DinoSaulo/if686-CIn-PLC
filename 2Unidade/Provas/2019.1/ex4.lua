@@ -7,18 +7,15 @@ function newpoly(lista, x)
     for i,v in pairs(lista) do
         arraynumeros[i] = v
     end
-    
-    final = ( arraynumeros[1] * x * x ) +  ( arraynumeros[2] * x ) + arraynumeros[3] 
 
-    return final
+    return function (x)
+            return (arraynumeros[1] * x * x ) +  ( arraynumeros[2] * x ) + arraynumeros[3]
+    end
 
 end
 
-listaComOsPolinomios = {3,0,1}
-
-function f(x)
-    return newpoly(listaComOsPolinomios, x)
-end
+-- utilizando closures
+f = newpoly({3,0,1})
 
 print(f(0)) --> 1
 print(f(5)) --> 76
